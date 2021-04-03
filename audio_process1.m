@@ -23,7 +23,7 @@ ylabel("Amplitude");
 title("Audio signal in time domain");
 
 Xf= abs(fft(Xt));
-f= linspace(1,fs,length(Xf));
+f=linspace(-length(Xf),length(Xf),length(Xf));
 figure;
 plot(f,Xf);
 xlabel("Frequency(Hz)");
