@@ -2,8 +2,7 @@ function []= pitch_shift(AudioFile,n);
 [snd,fs] = audioread(AudioFile);
 %---------------------Representing the original audio signal---------------
 Xt=snd(:,1);
-info=audioinfo(AudioFile);
-t=0:1/fs:info.Duration-(1/fs);  
+t=1/fs:1/fs:length(Xt)/fs; 
 Xf= abs(fft(Xt));
 f = linspace(-fs/2, fs/2+1, length(Xt));
 figure;
