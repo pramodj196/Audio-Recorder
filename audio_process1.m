@@ -15,7 +15,7 @@ pause;
 stop(player);
 %---------------------Representing the audio signal in time domain and frequency domain-------------------------
 Xt=snd(:,1);
-t=0:1/fs:info.Duration-(1/fs);
+t=1/fs:1/fs:length(Xt)/fs; 
 figure;
 plot(t,Xt);
 xlabel("Time(s)");
@@ -23,7 +23,7 @@ ylabel("Amplitude");
 title("Audio signal in time domain");
 
 Xf= abs(fft(Xt));
-f=linspace(-length(Xf),length(Xf),length(Xf));
+f = linspace(-fs/2, fs/2+1, length(Xf));
 figure;
 plot(f,Xf);
 xlabel("Frequency(Hz)");
