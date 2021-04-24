@@ -1,15 +1,23 @@
+const int microphonePin = 0;
+const int ledPin=12;
+const int threshold=1;
 void setup() {
+  pinMode(ledPin,OUTPUT);
   Serial.begin(9600); 
-  pinMode(0,OUTPUT);
+  pinMode(1,OUTPUT);
 }
 
 void loop() {
-  int y1=analogRead(A0);
+  int y1=analogRead(microphonePin);
   Serial.println(y1);
+  if(y1>threshold){
+    digitalWrite(ledPin,HIGH);
+  }
+  else{digitalWrite(ledPin,LOW);}
   int mapped = map(y1, 0, 1023, 0, 255);
   Serial.println(mapped);
-  delay(1/44);
-  int myInts[10];
+  delay(1000);
+  //int myInts[10];
   /*Serial.print("10 bit: ");
   for (int i = 0; i < 10; i = i + 1) {
     int remainder;
@@ -34,4 +42,5 @@ void loop() {
     Serial.print(myInts2[i]);
   }
   Serial.println(); 
+  //digitalWrite(ledPin,LOW);
 }
