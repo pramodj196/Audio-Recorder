@@ -1,0 +1,16 @@
+void setup() {
+  // put your setup code here, to run once:
+  DDRD = B11111111;
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  /*PORTD =255;
+  delay(1);
+  PORTD =0;
+  delay(1);
+  */
+  for(int i = -255;i<=255;i++){
+    PORTD = abs(i);
+  }
+}
