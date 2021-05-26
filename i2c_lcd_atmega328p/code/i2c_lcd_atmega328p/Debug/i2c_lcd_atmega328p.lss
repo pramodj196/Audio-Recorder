@@ -3,31 +3,31 @@ i2c_lcd_atmega328p.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000000aa  00800100  00000796  0000082a  2**0
+  0 .data         000000aa  00800100  00000792  00000826  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000796  00000000  00000000  00000094  2**1
+  1 .text         00000792  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000007  008001aa  008001aa  000008d4  2**0
+  2 .bss          00000007  008001aa  008001aa  000008d0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000008d4  2**0
+  3 .comment      00000030  00000000  00000000  000008d0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000904  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000900  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000d8  00000000  00000000  00000944  2**0
+  5 .debug_aranges 000000d8  00000000  00000000  00000940  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000011f6  00000000  00000000  00000a1c  2**0
+  6 .debug_info   000011f6  00000000  00000000  00000a18  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000786  00000000  00000000  00001c12  2**0
+  7 .debug_abbrev 00000786  00000000  00000000  00001c0e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000a5e  00000000  00000000  00002398  2**0
+  8 .debug_line   00000a5e  00000000  00000000  00002394  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001bc  00000000  00000000  00002df8  2**2
+  9 .debug_frame  000001bc  00000000  00000000  00002df4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000491  00000000  00000000  00002fb4  2**0
+ 10 .debug_str    000004a0  00000000  00000000  00002fb0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000300  00000000  00000000  00003445  2**0
+ 11 .debug_loc    000002fc  00000000  00000000  00003450  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  00003745  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  0000374c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e6 e9       	ldi	r30, 0x96	; 150
+  7a:	e2 e9       	ldi	r30, 0x92	; 146
   7c:	f7 e0       	ldi	r31, 0x07	; 7
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
@@ -94,8 +94,8 @@ Disassembly of section .text:
   94:	a1 3b       	cpi	r26, 0xB1	; 177
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 67 03 	call	0x6ce	; 0x6ce <main>
-  9e:	0c 94 c9 03 	jmp	0x792	; 0x792 <_exit>
+  9a:	0e 94 68 03 	call	0x6d0	; 0x6d0 <main>
+  9e:	0c 94 c7 03 	jmp	0x78e	; 0x78e <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -373,8 +373,8 @@ void lcd_lef_sh()
  2fa:	08 95       	ret
 
 000002fc <Navigate>:
-	Row=0;
 	Screen=1;
+	}
 }
 
 void Navigate(){
@@ -392,13 +392,14 @@ void Navigate(){
  30c:	90 e0       	ldi	r25, 0x00	; 0
  30e:	90 93 ab 01 	sts	0x01AB, r25	; 0x8001ab <__data_end+0x1>
  312:	80 93 aa 01 	sts	0x01AA, r24	; 0x8001aa <__data_end>
+		}
 		
-	}
 	if (DOWNval==4)
  316:	80 91 ad 01 	lds	r24, 0x01AD	; 0x8001ad <DOWNval>
  31a:	84 30       	cpi	r24, 0x04	; 4
  31c:	49 f4       	brne	.+18     	; 0x330 <Navigate+0x34>
 	{
+	
 		lcd_cmd(0xC0);
  31e:	80 ec       	ldi	r24, 0xC0	; 192
  320:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
@@ -451,575 +452,574 @@ void Menu(){
 void Recording(){
  36a:	cf 93       	push	r28
  36c:	df 93       	push	r29
+	if(RECval==1){
+ 36e:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <RECval>
+ 372:	81 30       	cpi	r24, 0x01	; 1
+ 374:	e9 f5       	brne	.+122    	; 0x3f0 <Recording+0x86>
+ 376:	1f c0       	rjmp	.+62     	; 0x3b6 <Recording+0x4c>
 	while ( RECval == 1 )
- 36e:	22 c0       	rjmp	.+68     	; 0x3b4 <Recording+0x4a>
 	{
 		//printf(RECval);
 		lcd_cmd(0x01);
- 370:	81 e0       	ldi	r24, 0x01	; 1
- 372:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 378:	81 e0       	ldi	r24, 0x01	; 1
+ 37a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Recording");
- 376:	8e e1       	ldi	r24, 0x1E	; 30
- 378:	91 e0       	ldi	r25, 0x01	; 1
- 37a:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 37e:	8e e1       	ldi	r24, 0x1E	; 30
+ 380:	91 e0       	ldi	r25, 0x01	; 1
+ 382:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		for (int i = 0; i <= 4; i++){
- 37e:	c0 e0       	ldi	r28, 0x00	; 0
- 380:	d0 e0       	ldi	r29, 0x00	; 0
- 382:	0e c0       	rjmp	.+28     	; 0x3a0 <Recording+0x36>
+ 386:	c0 e0       	ldi	r28, 0x00	; 0
+ 388:	d0 e0       	ldi	r29, 0x00	; 0
+ 38a:	0b c0       	rjmp	.+22     	; 0x3a2 <Recording+0x38>
 			lcd_msg(".");
- 384:	88 e2       	ldi	r24, 0x28	; 40
- 386:	91 e0       	ldi	r25, 0x01	; 1
- 388:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 38c:	88 e2       	ldi	r24, 0x28	; 40
+ 38e:	91 e0       	ldi	r25, 0x01	; 1
+ 390:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 38c:	2f e7       	ldi	r18, 0x7F	; 127
- 38e:	88 e3       	ldi	r24, 0x38	; 56
- 390:	91 e0       	ldi	r25, 0x01	; 1
- 392:	21 50       	subi	r18, 0x01	; 1
- 394:	80 40       	sbci	r24, 0x00	; 0
- 396:	90 40       	sbci	r25, 0x00	; 0
- 398:	e1 f7       	brne	.-8      	; 0x392 <Recording+0x28>
- 39a:	00 c0       	rjmp	.+0      	; 0x39c <Recording+0x32>
- 39c:	00 00       	nop
+ 394:	83 ed       	ldi	r24, 0xD3	; 211
+ 396:	90 e3       	ldi	r25, 0x30	; 48
+ 398:	01 97       	sbiw	r24, 0x01	; 1
+ 39a:	f1 f7       	brne	.-4      	; 0x398 <Recording+0x2e>
+ 39c:	00 c0       	rjmp	.+0      	; 0x39e <Recording+0x34>
+ 39e:	00 00       	nop
 	while ( RECval == 1 )
 	{
 		//printf(RECval);
 		lcd_cmd(0x01);
 		lcd_msg("Recording");
 		for (int i = 0; i <= 4; i++){
- 39e:	21 96       	adiw	r28, 0x01	; 1
- 3a0:	c5 30       	cpi	r28, 0x05	; 5
- 3a2:	d1 05       	cpc	r29, r1
- 3a4:	7c f3       	brlt	.-34     	; 0x384 <Recording+0x1a>
+ 3a0:	21 96       	adiw	r28, 0x01	; 1
+ 3a2:	c5 30       	cpi	r28, 0x05	; 5
+ 3a4:	d1 05       	cpc	r29, r1
+ 3a6:	94 f3       	brlt	.-28     	; 0x38c <Recording+0x22>
 			lcd_msg(".");
 			_delay_ms(50);
 		}
 		RECval = PIND & (1<<PIND0);
- 3a6:	89 b1       	in	r24, 0x09	; 9
- 3a8:	81 70       	andi	r24, 0x01	; 1
- 3aa:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <RECval>
+ 3a8:	89 b1       	in	r24, 0x09	; 9
+ 3aa:	81 70       	andi	r24, 0x01	; 1
+ 3ac:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <RECval>
 		lcd_cmd(0x01);
- 3ae:	81 e0       	ldi	r24, 0x01	; 1
- 3b0:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
-		Back();
+ 3b0:	81 e0       	ldi	r24, 0x01	; 1
+ 3b2:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		
     }
 }
 void Recording(){
+	if(RECval==1){
 	while ( RECval == 1 )
- 3b4:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <RECval>
- 3b8:	81 30       	cpi	r24, 0x01	; 1
- 3ba:	d1 f2       	breq	.-76     	; 0x370 <Recording+0x6>
+ 3b6:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <RECval>
+ 3ba:	81 30       	cpi	r24, 0x01	; 1
+ 3bc:	e9 f2       	breq	.-70     	; 0x378 <Recording+0xe>
 			_delay_ms(50);
 		}
 		RECval = PIND & (1<<PIND0);
 		lcd_cmd(0x01);
 	}
 	lcd_msg("File Saved");
- 3bc:	8a e2       	ldi	r24, 0x2A	; 42
- 3be:	91 e0       	ldi	r25, 0x01	; 1
- 3c0:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
- 3c4:	2f ef       	ldi	r18, 0xFF	; 255
- 3c6:	89 e6       	ldi	r24, 0x69	; 105
- 3c8:	98 e1       	ldi	r25, 0x18	; 24
- 3ca:	21 50       	subi	r18, 0x01	; 1
- 3cc:	80 40       	sbci	r24, 0x00	; 0
- 3ce:	90 40       	sbci	r25, 0x00	; 0
- 3d0:	e1 f7       	brne	.-8      	; 0x3ca <Recording+0x60>
- 3d2:	00 c0       	rjmp	.+0      	; 0x3d4 <Recording+0x6a>
- 3d4:	00 00       	nop
+ 3be:	8a e2       	ldi	r24, 0x2A	; 42
+ 3c0:	91 e0       	ldi	r25, 0x01	; 1
+ 3c2:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 3c6:	9f e3       	ldi	r25, 0x3F	; 63
+ 3c8:	2d e0       	ldi	r18, 0x0D	; 13
+ 3ca:	83 e0       	ldi	r24, 0x03	; 3
+ 3cc:	91 50       	subi	r25, 0x01	; 1
+ 3ce:	20 40       	sbci	r18, 0x00	; 0
+ 3d0:	80 40       	sbci	r24, 0x00	; 0
+ 3d2:	e1 f7       	brne	.-8      	; 0x3cc <Recording+0x62>
+ 3d4:	00 c0       	rjmp	.+0      	; 0x3d6 <Recording+0x6c>
+ 3d6:	00 00       	nop
 	_delay_ms(1000);
 	Menu();
- 3d6:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
+ 3d8:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
 	Row=0;
- 3da:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 3de:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 3dc:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 3e0:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
 	Screen=1;
- 3e2:	81 e0       	ldi	r24, 0x01	; 1
- 3e4:	90 e0       	ldi	r25, 0x00	; 0
- 3e6:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 3ea:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 3e4:	81 e0       	ldi	r24, 0x01	; 1
+ 3e6:	90 e0       	ldi	r25, 0x00	; 0
+ 3e8:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 3ec:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+	}
 }
- 3ee:	df 91       	pop	r29
- 3f0:	cf 91       	pop	r28
- 3f2:	08 95       	ret
+ 3f0:	df 91       	pop	r29
+ 3f2:	cf 91       	pop	r28
+ 3f4:	08 95       	ret
 
-000003f4 <PlayBackAudio>:
+000003f6 <PlayBackAudio>:
 	lcd_msg("Delete Audio");
 	Screen = 1;
 	Row = 0;
 }
 void PlayBackAudio(){
 	lcd_cmd(0x01);
- 3f4:	81 e0       	ldi	r24, 0x01	; 1
- 3f6:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 3f6:	81 e0       	ldi	r24, 0x01	; 1
+ 3f8:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_cmd(0x80);
- 3fa:	80 e8       	ldi	r24, 0x80	; 128
- 3fc:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 3fc:	80 e8       	ldi	r24, 0x80	; 128
+ 3fe:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_msg("Audio 1");
- 400:	85 e5       	ldi	r24, 0x55	; 85
- 402:	91 e0       	ldi	r25, 0x01	; 1
- 404:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 402:	85 e5       	ldi	r24, 0x55	; 85
+ 404:	91 e0       	ldi	r25, 0x01	; 1
+ 406:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	lcd_cmd(0xC0);
- 408:	80 ec       	ldi	r24, 0xC0	; 192
- 40a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 40a:	80 ec       	ldi	r24, 0xC0	; 192
+ 40c:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_msg("Audio 2");
- 40e:	83 e7       	ldi	r24, 0x73	; 115
- 410:	91 e0       	ldi	r25, 0x01	; 1
- 412:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 410:	83 e7       	ldi	r24, 0x73	; 115
+ 412:	91 e0       	ldi	r25, 0x01	; 1
+ 414:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	Screen = 2;
- 416:	82 e0       	ldi	r24, 0x02	; 2
- 418:	90 e0       	ldi	r25, 0x00	; 0
- 41a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 41e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 418:	82 e0       	ldi	r24, 0x02	; 2
+ 41a:	90 e0       	ldi	r25, 0x00	; 0
+ 41c:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 420:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 	Row = 0;
- 422:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 426:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
- 42a:	08 95       	ret
+ 424:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 428:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 42c:	08 95       	ret
 
-0000042c <DeleteAudio>:
+0000042e <DeleteAudio>:
 }
 void DeleteAudio(){
 	lcd_cmd(0x01);
- 42c:	81 e0       	ldi	r24, 0x01	; 1
- 42e:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 42e:	81 e0       	ldi	r24, 0x01	; 1
+ 430:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_cmd(0x80);
- 432:	80 e8       	ldi	r24, 0x80	; 128
- 434:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 434:	80 e8       	ldi	r24, 0x80	; 128
+ 436:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_msg("Audio 1");
- 438:	85 e5       	ldi	r24, 0x55	; 85
- 43a:	91 e0       	ldi	r25, 0x01	; 1
- 43c:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 43a:	85 e5       	ldi	r24, 0x55	; 85
+ 43c:	91 e0       	ldi	r25, 0x01	; 1
+ 43e:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	lcd_cmd(0xC0);
- 440:	80 ec       	ldi	r24, 0xC0	; 192
- 442:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 442:	80 ec       	ldi	r24, 0xC0	; 192
+ 444:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 	lcd_msg("Audio 2");
- 446:	83 e7       	ldi	r24, 0x73	; 115
- 448:	91 e0       	ldi	r25, 0x01	; 1
- 44a:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 448:	83 e7       	ldi	r24, 0x73	; 115
+ 44a:	91 e0       	ldi	r25, 0x01	; 1
+ 44c:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	Screen = 3;
- 44e:	83 e0       	ldi	r24, 0x03	; 3
- 450:	90 e0       	ldi	r25, 0x00	; 0
- 452:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 456:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 450:	83 e0       	ldi	r24, 0x03	; 3
+ 452:	90 e0       	ldi	r25, 0x00	; 0
+ 454:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 458:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 	Row = 0;
- 45a:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 45e:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
- 462:	08 95       	ret
+ 45c:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 460:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 464:	08 95       	ret
 
-00000464 <PlayClipI>:
+00000466 <PlayClipI>:
 }
 void PlayClipI(){
 	if ((SELval == 8) && (Row == 1) && (Screen == 2)){
- 464:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 468:	88 30       	cpi	r24, 0x08	; 8
- 46a:	39 f5       	brne	.+78     	; 0x4ba <PlayClipI+0x56>
- 46c:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 470:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 474:	01 97       	sbiw	r24, 0x01	; 1
- 476:	09 f5       	brne	.+66     	; 0x4ba <PlayClipI+0x56>
- 478:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 47c:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 480:	02 97       	sbiw	r24, 0x02	; 2
- 482:	d9 f4       	brne	.+54     	; 0x4ba <PlayClipI+0x56>
+ 466:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 46a:	88 30       	cpi	r24, 0x08	; 8
+ 46c:	39 f5       	brne	.+78     	; 0x4bc <PlayClipI+0x56>
+ 46e:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 472:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 476:	01 97       	sbiw	r24, 0x01	; 1
+ 478:	09 f5       	brne	.+66     	; 0x4bc <PlayClipI+0x56>
+ 47a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 47e:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 482:	02 97       	sbiw	r24, 0x02	; 2
+ 484:	d9 f4       	brne	.+54     	; 0x4bc <PlayClipI+0x56>
 		lcd_cmd(0x01);
- 484:	81 e0       	ldi	r24, 0x01	; 1
- 486:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 486:	81 e0       	ldi	r24, 0x01	; 1
+ 488:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 48a:	80 e8       	ldi	r24, 0x80	; 128
- 48c:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 48c:	80 e8       	ldi	r24, 0x80	; 128
+ 48e:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("No Effect");
- 490:	85 e3       	ldi	r24, 0x35	; 53
- 492:	91 e0       	ldi	r25, 0x01	; 1
- 494:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 492:	85 e3       	ldi	r24, 0x35	; 53
+ 494:	91 e0       	ldi	r25, 0x01	; 1
+ 496:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		lcd_cmd(0xC0);
- 498:	80 ec       	ldi	r24, 0xC0	; 192
- 49a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 49a:	80 ec       	ldi	r24, 0xC0	; 192
+ 49c:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Effect 1");
- 49e:	82 e6       	ldi	r24, 0x62	; 98
- 4a0:	91 e0       	ldi	r25, 0x01	; 1
- 4a2:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 4a0:	82 e6       	ldi	r24, 0x62	; 98
+ 4a2:	91 e0       	ldi	r25, 0x01	; 1
+ 4a4:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		Screen = 4;
- 4a6:	84 e0       	ldi	r24, 0x04	; 4
- 4a8:	90 e0       	ldi	r25, 0x00	; 0
- 4aa:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 4ae:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 4a8:	84 e0       	ldi	r24, 0x04	; 4
+ 4aa:	90 e0       	ldi	r25, 0x00	; 0
+ 4ac:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 4b0:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 		Row =0;
- 4b2:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 4b6:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 4b4:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 4b8:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
 	}
 	if ((SELval == 8) && (Row == 2) && (Screen == 2)){
- 4ba:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 4be:	88 30       	cpi	r24, 0x08	; 8
- 4c0:	39 f5       	brne	.+78     	; 0x510 <PlayClipI+0xac>
- 4c2:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 4c6:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 4ca:	02 97       	sbiw	r24, 0x02	; 2
- 4cc:	09 f5       	brne	.+66     	; 0x510 <PlayClipI+0xac>
- 4ce:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 4d2:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 4d6:	02 97       	sbiw	r24, 0x02	; 2
- 4d8:	d9 f4       	brne	.+54     	; 0x510 <PlayClipI+0xac>
+ 4bc:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 4c0:	88 30       	cpi	r24, 0x08	; 8
+ 4c2:	39 f5       	brne	.+78     	; 0x512 <PlayClipI+0xac>
+ 4c4:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 4c8:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 4cc:	02 97       	sbiw	r24, 0x02	; 2
+ 4ce:	09 f5       	brne	.+66     	; 0x512 <PlayClipI+0xac>
+ 4d0:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 4d4:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 4d8:	02 97       	sbiw	r24, 0x02	; 2
+ 4da:	d9 f4       	brne	.+54     	; 0x512 <PlayClipI+0xac>
 		lcd_cmd(0x01);
- 4da:	81 e0       	ldi	r24, 0x01	; 1
- 4dc:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 4dc:	81 e0       	ldi	r24, 0x01	; 1
+ 4de:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 4e0:	80 e8       	ldi	r24, 0x80	; 128
- 4e2:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 4e2:	80 e8       	ldi	r24, 0x80	; 128
+ 4e4:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("No Effect");
- 4e6:	85 e3       	ldi	r24, 0x35	; 53
- 4e8:	91 e0       	ldi	r25, 0x01	; 1
- 4ea:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 4e8:	85 e3       	ldi	r24, 0x35	; 53
+ 4ea:	91 e0       	ldi	r25, 0x01	; 1
+ 4ec:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		lcd_cmd(0xC0);
- 4ee:	80 ec       	ldi	r24, 0xC0	; 192
- 4f0:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 4f0:	80 ec       	ldi	r24, 0xC0	; 192
+ 4f2:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Effect 1");
- 4f4:	82 e6       	ldi	r24, 0x62	; 98
- 4f6:	91 e0       	ldi	r25, 0x01	; 1
- 4f8:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 4f6:	82 e6       	ldi	r24, 0x62	; 98
+ 4f8:	91 e0       	ldi	r25, 0x01	; 1
+ 4fa:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		Screen = 5;
- 4fc:	85 e0       	ldi	r24, 0x05	; 5
- 4fe:	90 e0       	ldi	r25, 0x00	; 0
- 500:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 504:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 4fe:	85 e0       	ldi	r24, 0x05	; 5
+ 500:	90 e0       	ldi	r25, 0x00	; 0
+ 502:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 506:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 		Row =0;
- 508:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 50c:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
- 510:	08 95       	ret
+ 50a:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 50e:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 512:	08 95       	ret
 
-00000512 <PlayClipII>:
+00000514 <PlayClipII>:
 	}
 }
 void PlayClipII(){
 	if ((SELval == 8) && (Row == 1) && (Screen == 4)){
- 512:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 516:	88 30       	cpi	r24, 0x08	; 8
- 518:	b1 f4       	brne	.+44     	; 0x546 <PlayClipII+0x34>
- 51a:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 51e:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 522:	01 97       	sbiw	r24, 0x01	; 1
- 524:	81 f4       	brne	.+32     	; 0x546 <PlayClipII+0x34>
- 526:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 52a:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 52e:	04 97       	sbiw	r24, 0x04	; 4
- 530:	51 f4       	brne	.+20     	; 0x546 <PlayClipII+0x34>
+ 514:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 518:	88 30       	cpi	r24, 0x08	; 8
+ 51a:	b1 f4       	brne	.+44     	; 0x548 <PlayClipII+0x34>
+ 51c:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 520:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 524:	01 97       	sbiw	r24, 0x01	; 1
+ 526:	81 f4       	brne	.+32     	; 0x548 <PlayClipII+0x34>
+ 528:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 52c:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 530:	04 97       	sbiw	r24, 0x04	; 4
+ 532:	51 f4       	brne	.+20     	; 0x548 <PlayClipII+0x34>
 		lcd_cmd(0x01);
- 532:	81 e0       	ldi	r24, 0x01	; 1
- 534:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 534:	81 e0       	ldi	r24, 0x01	; 1
+ 536:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 538:	80 e8       	ldi	r24, 0x80	; 128
- 53a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 53a:	80 e8       	ldi	r24, 0x80	; 128
+ 53c:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Playing Audio");
- 53e:	8f e3       	ldi	r24, 0x3F	; 63
- 540:	91 e0       	ldi	r25, 0x01	; 1
- 542:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 540:	8f e3       	ldi	r24, 0x3F	; 63
+ 542:	91 e0       	ldi	r25, 0x01	; 1
+ 544:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	}
 	if ((SELval == 8) && (Row == 2) && (Screen == 4)){
- 546:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 54a:	88 30       	cpi	r24, 0x08	; 8
- 54c:	e9 f4       	brne	.+58     	; 0x588 <PlayClipII+0x76>
- 54e:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 552:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 556:	02 97       	sbiw	r24, 0x02	; 2
- 558:	b9 f4       	brne	.+46     	; 0x588 <PlayClipII+0x76>
- 55a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 55e:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 562:	04 97       	sbiw	r24, 0x04	; 4
- 564:	89 f4       	brne	.+34     	; 0x588 <PlayClipII+0x76>
+ 548:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 54c:	88 30       	cpi	r24, 0x08	; 8
+ 54e:	e9 f4       	brne	.+58     	; 0x58a <PlayClipII+0x76>
+ 550:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 554:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 558:	02 97       	sbiw	r24, 0x02	; 2
+ 55a:	b9 f4       	brne	.+46     	; 0x58a <PlayClipII+0x76>
+ 55c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 560:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 564:	04 97       	sbiw	r24, 0x04	; 4
+ 566:	89 f4       	brne	.+34     	; 0x58a <PlayClipII+0x76>
 		lcd_cmd(0x01);
- 566:	81 e0       	ldi	r24, 0x01	; 1
- 568:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 568:	81 e0       	ldi	r24, 0x01	; 1
+ 56a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 56c:	80 e8       	ldi	r24, 0x80	; 128
- 56e:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 56e:	80 e8       	ldi	r24, 0x80	; 128
+ 570:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Playing Audio 1");
- 572:	8d e4       	ldi	r24, 0x4D	; 77
- 574:	91 e0       	ldi	r25, 0x01	; 1
- 576:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 574:	8d e4       	ldi	r24, 0x4D	; 77
+ 576:	91 e0       	ldi	r25, 0x01	; 1
+ 578:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		lcd_cmd(0xC0);
- 57a:	80 ec       	ldi	r24, 0xC0	; 192
- 57c:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 57c:	80 ec       	ldi	r24, 0xC0	; 192
+ 57e:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("with Effect 1");
- 580:	8d e5       	ldi	r24, 0x5D	; 93
- 582:	91 e0       	ldi	r25, 0x01	; 1
- 584:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 582:	8d e5       	ldi	r24, 0x5D	; 93
+ 584:	91 e0       	ldi	r25, 0x01	; 1
+ 586:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	}
 	if ((SELval == 8) && (Row == 1) && (Screen == 5)){
- 588:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 58c:	88 30       	cpi	r24, 0x08	; 8
- 58e:	b1 f4       	brne	.+44     	; 0x5bc <PlayClipII+0xaa>
- 590:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 594:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 598:	01 97       	sbiw	r24, 0x01	; 1
- 59a:	81 f4       	brne	.+32     	; 0x5bc <PlayClipII+0xaa>
- 59c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5a0:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 5a4:	05 97       	sbiw	r24, 0x05	; 5
- 5a6:	51 f4       	brne	.+20     	; 0x5bc <PlayClipII+0xaa>
+ 58a:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 58e:	88 30       	cpi	r24, 0x08	; 8
+ 590:	b1 f4       	brne	.+44     	; 0x5be <PlayClipII+0xaa>
+ 592:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 596:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 59a:	01 97       	sbiw	r24, 0x01	; 1
+ 59c:	81 f4       	brne	.+32     	; 0x5be <PlayClipII+0xaa>
+ 59e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 5a2:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 5a6:	05 97       	sbiw	r24, 0x05	; 5
+ 5a8:	51 f4       	brne	.+20     	; 0x5be <PlayClipII+0xaa>
 		lcd_cmd(0x01);
- 5a8:	81 e0       	ldi	r24, 0x01	; 1
- 5aa:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 5aa:	81 e0       	ldi	r24, 0x01	; 1
+ 5ac:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 5ae:	80 e8       	ldi	r24, 0x80	; 128
- 5b0:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 5b0:	80 e8       	ldi	r24, 0x80	; 128
+ 5b2:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Playing Audio 2");
- 5b4:	8b e6       	ldi	r24, 0x6B	; 107
- 5b6:	91 e0       	ldi	r25, 0x01	; 1
- 5b8:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 5b6:	8b e6       	ldi	r24, 0x6B	; 107
+ 5b8:	91 e0       	ldi	r25, 0x01	; 1
+ 5ba:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 	}
 	if ((SELval == 8) && (Row == 2) && (Screen == 5)){
- 5bc:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 5c0:	88 30       	cpi	r24, 0x08	; 8
- 5c2:	e9 f4       	brne	.+58     	; 0x5fe <PlayClipII+0xec>
- 5c4:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 5c8:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 5cc:	02 97       	sbiw	r24, 0x02	; 2
- 5ce:	b9 f4       	brne	.+46     	; 0x5fe <PlayClipII+0xec>
- 5d0:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 5d4:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 5d8:	05 97       	sbiw	r24, 0x05	; 5
- 5da:	89 f4       	brne	.+34     	; 0x5fe <PlayClipII+0xec>
+ 5be:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 5c2:	88 30       	cpi	r24, 0x08	; 8
+ 5c4:	e9 f4       	brne	.+58     	; 0x600 <PlayClipII+0xec>
+ 5c6:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 5ca:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 5ce:	02 97       	sbiw	r24, 0x02	; 2
+ 5d0:	b9 f4       	brne	.+46     	; 0x600 <PlayClipII+0xec>
+ 5d2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 5d6:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 5da:	05 97       	sbiw	r24, 0x05	; 5
+ 5dc:	89 f4       	brne	.+34     	; 0x600 <PlayClipII+0xec>
 		lcd_cmd(0x01);
- 5dc:	81 e0       	ldi	r24, 0x01	; 1
- 5de:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 5de:	81 e0       	ldi	r24, 0x01	; 1
+ 5e0:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 5e2:	80 e8       	ldi	r24, 0x80	; 128
- 5e4:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 5e4:	80 e8       	ldi	r24, 0x80	; 128
+ 5e6:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Playing Audio 2");
- 5e8:	8b e6       	ldi	r24, 0x6B	; 107
- 5ea:	91 e0       	ldi	r25, 0x01	; 1
- 5ec:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 5ea:	8b e6       	ldi	r24, 0x6B	; 107
+ 5ec:	91 e0       	ldi	r25, 0x01	; 1
+ 5ee:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		lcd_cmd(0xC0);
- 5f0:	80 ec       	ldi	r24, 0xC0	; 192
- 5f2:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 5f2:	80 ec       	ldi	r24, 0xC0	; 192
+ 5f4:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("with Effect 1");
- 5f6:	8d e5       	ldi	r24, 0x5D	; 93
- 5f8:	91 e0       	ldi	r25, 0x01	; 1
- 5fa:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
- 5fe:	08 95       	ret
+ 5f8:	8d e5       	ldi	r24, 0x5D	; 93
+ 5fa:	91 e0       	ldi	r25, 0x01	; 1
+ 5fc:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 600:	08 95       	ret
 
-00000600 <DeleteClipI>:
+00000602 <DeleteClipI>:
 	}
 }
 void DeleteClipI(){
 	if ((SELval == 8) && (Row != 0) && (Screen == 3)){
- 600:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 604:	88 30       	cpi	r24, 0x08	; 8
- 606:	39 f5       	brne	.+78     	; 0x656 <DeleteClipI+0x56>
- 608:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 60c:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 610:	89 2b       	or	r24, r25
- 612:	09 f1       	breq	.+66     	; 0x656 <DeleteClipI+0x56>
- 614:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 618:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 61c:	03 97       	sbiw	r24, 0x03	; 3
- 61e:	d9 f4       	brne	.+54     	; 0x656 <DeleteClipI+0x56>
+ 602:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 606:	88 30       	cpi	r24, 0x08	; 8
+ 608:	39 f5       	brne	.+78     	; 0x658 <DeleteClipI+0x56>
+ 60a:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 60e:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 612:	89 2b       	or	r24, r25
+ 614:	09 f1       	breq	.+66     	; 0x658 <DeleteClipI+0x56>
+ 616:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 61a:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 61e:	03 97       	sbiw	r24, 0x03	; 3
+ 620:	d9 f4       	brne	.+54     	; 0x658 <DeleteClipI+0x56>
 		lcd_cmd(0x01);
- 620:	81 e0       	ldi	r24, 0x01	; 1
- 622:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 622:	81 e0       	ldi	r24, 0x01	; 1
+ 624:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 626:	80 e8       	ldi	r24, 0x80	; 128
- 628:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 628:	80 e8       	ldi	r24, 0x80	; 128
+ 62a:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Press Select");
- 62c:	8b e7       	ldi	r24, 0x7B	; 123
- 62e:	91 e0       	ldi	r25, 0x01	; 1
- 630:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 62e:	8b e7       	ldi	r24, 0x7B	; 123
+ 630:	91 e0       	ldi	r25, 0x01	; 1
+ 632:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		lcd_cmd(0xC0);
- 634:	80 ec       	ldi	r24, 0xC0	; 192
- 636:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 636:	80 ec       	ldi	r24, 0xC0	; 192
+ 638:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("to delete");
- 63a:	88 e8       	ldi	r24, 0x88	; 136
- 63c:	91 e0       	ldi	r25, 0x01	; 1
- 63e:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 63c:	88 e8       	ldi	r24, 0x88	; 136
+ 63e:	91 e0       	ldi	r25, 0x01	; 1
+ 640:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
 		Screen = 6;
- 642:	86 e0       	ldi	r24, 0x06	; 6
- 644:	90 e0       	ldi	r25, 0x00	; 0
- 646:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 64a:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 644:	86 e0       	ldi	r24, 0x06	; 6
+ 646:	90 e0       	ldi	r25, 0x00	; 0
+ 648:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 64c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 		Row = 0;
- 64e:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
- 652:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
- 656:	08 95       	ret
+ 650:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <__data_end+0x1>
+ 654:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <__data_end>
+ 658:	08 95       	ret
 
-00000658 <DeleteClipII>:
+0000065a <DeleteClipII>:
 	}
 }
 
 void DeleteClipII(){
 	if ((SELval == 8 ) && (Screen == 6)){
- 658:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 65c:	88 30       	cpi	r24, 0x08	; 8
- 65e:	d9 f4       	brne	.+54     	; 0x696 <DeleteClipII+0x3e>
- 660:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 664:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 668:	06 97       	sbiw	r24, 0x06	; 6
- 66a:	a9 f4       	brne	.+42     	; 0x696 <DeleteClipII+0x3e>
+ 65a:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 65e:	88 30       	cpi	r24, 0x08	; 8
+ 660:	d9 f4       	brne	.+54     	; 0x698 <DeleteClipII+0x3e>
+ 662:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 666:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 66a:	06 97       	sbiw	r24, 0x06	; 6
+ 66c:	a9 f4       	brne	.+42     	; 0x698 <DeleteClipII+0x3e>
 		lcd_cmd(0x01);
- 66c:	81 e0       	ldi	r24, 0x01	; 1
- 66e:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 66e:	81 e0       	ldi	r24, 0x01	; 1
+ 670:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_cmd(0x80);
- 672:	80 e8       	ldi	r24, 0x80	; 128
- 674:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
+ 674:	80 e8       	ldi	r24, 0x80	; 128
+ 676:	0e 94 c4 00 	call	0x188	; 0x188 <lcd_cmd>
 		lcd_msg("Deleted");
- 678:	82 e9       	ldi	r24, 0x92	; 146
- 67a:	91 e0       	ldi	r25, 0x01	; 1
- 67c:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
- 680:	2f ef       	ldi	r18, 0xFF	; 255
- 682:	89 e6       	ldi	r24, 0x69	; 105
- 684:	98 e1       	ldi	r25, 0x18	; 24
- 686:	21 50       	subi	r18, 0x01	; 1
- 688:	80 40       	sbci	r24, 0x00	; 0
- 68a:	90 40       	sbci	r25, 0x00	; 0
- 68c:	e1 f7       	brne	.-8      	; 0x686 <DeleteClipII+0x2e>
- 68e:	00 c0       	rjmp	.+0      	; 0x690 <DeleteClipII+0x38>
- 690:	00 00       	nop
+ 67a:	82 e9       	ldi	r24, 0x92	; 146
+ 67c:	91 e0       	ldi	r25, 0x01	; 1
+ 67e:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 682:	2f e3       	ldi	r18, 0x3F	; 63
+ 684:	8d e0       	ldi	r24, 0x0D	; 13
+ 686:	93 e0       	ldi	r25, 0x03	; 3
+ 688:	21 50       	subi	r18, 0x01	; 1
+ 68a:	80 40       	sbci	r24, 0x00	; 0
+ 68c:	90 40       	sbci	r25, 0x00	; 0
+ 68e:	e1 f7       	brne	.-8      	; 0x688 <DeleteClipII+0x2e>
+ 690:	00 c0       	rjmp	.+0      	; 0x692 <DeleteClipII+0x38>
+ 692:	00 00       	nop
 		_delay_ms(1000);
 		Menu();
- 692:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
- 696:	08 95       	ret
+ 694:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
+ 698:	08 95       	ret
 
-00000698 <Back>:
+0000069a <Back>:
 	}
 }
 void Back(){
 	if ((BACKval == 16) && ((Screen == 2) || (Screen == 3))){
- 698:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <BACKval>
- 69c:	80 31       	cpi	r24, 0x10	; 16
- 69e:	49 f4       	brne	.+18     	; 0x6b2 <Back+0x1a>
- 6a0:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6a4:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 6a8:	02 97       	sbiw	r24, 0x02	; 2
+ 69a:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <BACKval>
+ 69e:	80 31       	cpi	r24, 0x10	; 16
+ 6a0:	49 f4       	brne	.+18     	; 0x6b4 <Back+0x1a>
+ 6a2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 6a6:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
  6aa:	02 97       	sbiw	r24, 0x02	; 2
- 6ac:	10 f4       	brcc	.+4      	; 0x6b2 <Back+0x1a>
+ 6ac:	02 97       	sbiw	r24, 0x02	; 2
+ 6ae:	10 f4       	brcc	.+4      	; 0x6b4 <Back+0x1a>
 		Menu();
- 6ae:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
+ 6b0:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
 	}
 	if ((BACKval == 16) && ((Screen == 4) || (Screen == 5))){
- 6b2:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <BACKval>
- 6b6:	80 31       	cpi	r24, 0x10	; 16
- 6b8:	49 f4       	brne	.+18     	; 0x6cc <Back+0x34>
- 6ba:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 6be:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 6c2:	04 97       	sbiw	r24, 0x04	; 4
- 6c4:	02 97       	sbiw	r24, 0x02	; 2
- 6c6:	10 f4       	brcc	.+4      	; 0x6cc <Back+0x34>
+ 6b4:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <BACKval>
+ 6b8:	80 31       	cpi	r24, 0x10	; 16
+ 6ba:	49 f4       	brne	.+18     	; 0x6ce <Back+0x34>
+ 6bc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 6c0:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 6c4:	04 97       	sbiw	r24, 0x04	; 4
+ 6c6:	02 97       	sbiw	r24, 0x02	; 2
+ 6c8:	10 f4       	brcc	.+4      	; 0x6ce <Back+0x34>
 		PlayBackAudio();
- 6c8:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <PlayBackAudio>
- 6cc:	08 95       	ret
+ 6ca:	0e 94 fb 01 	call	0x3f6	; 0x3f6 <PlayBackAudio>
+ 6ce:	08 95       	ret
 
-000006ce <main>:
+000006d0 <main>:
 void DeleteClipII();
 void Back();
 
 int main(void)
 {
 	DDRD &=~((1<<PIND0)|(1<<PIND1)|(1<<PIND2)|(1<<PIND3)|(1<<PIND4)) ;
- 6ce:	8a b1       	in	r24, 0x0a	; 10
- 6d0:	80 7e       	andi	r24, 0xE0	; 224
- 6d2:	8a b9       	out	0x0a, r24	; 10
+ 6d0:	8a b1       	in	r24, 0x0a	; 10
+ 6d2:	80 7e       	andi	r24, 0xE0	; 224
+ 6d4:	8a b9       	out	0x0a, r24	; 10
 	i2c_init();
- 6d4:	0e 94 53 00 	call	0xa6	; 0xa6 <i2c_init>
+ 6d6:	0e 94 53 00 	call	0xa6	; 0xa6 <i2c_init>
 	i2c_start();
- 6d8:	0e 94 5c 00 	call	0xb8	; 0xb8 <i2c_start>
+ 6da:	0e 94 5c 00 	call	0xb8	; 0xb8 <i2c_start>
 	i2c_write(0x70);
- 6dc:	80 e7       	ldi	r24, 0x70	; 112
- 6de:	0e 94 64 00 	call	0xc8	; 0xc8 <i2c_write>
+ 6de:	80 e7       	ldi	r24, 0x70	; 112
+ 6e0:	0e 94 64 00 	call	0xc8	; 0xc8 <i2c_write>
 	lcd_init();
- 6e2:	0e 94 0e 01 	call	0x21c	; 0x21c <lcd_init>
+ 6e4:	0e 94 0e 01 	call	0x21c	; 0x21c <lcd_init>
 	lcd_msg("Voice Recorder");
- 6e6:	8a e9       	ldi	r24, 0x9A	; 154
- 6e8:	91 e0       	ldi	r25, 0x01	; 1
- 6ea:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
- 6ee:	2f e7       	ldi	r18, 0x7F	; 127
- 6f0:	88 e3       	ldi	r24, 0x38	; 56
- 6f2:	91 e0       	ldi	r25, 0x01	; 1
- 6f4:	21 50       	subi	r18, 0x01	; 1
- 6f6:	80 40       	sbci	r24, 0x00	; 0
- 6f8:	90 40       	sbci	r25, 0x00	; 0
- 6fa:	e1 f7       	brne	.-8      	; 0x6f4 <main+0x26>
- 6fc:	00 c0       	rjmp	.+0      	; 0x6fe <main+0x30>
- 6fe:	00 00       	nop
+ 6e8:	8a e9       	ldi	r24, 0x9A	; 154
+ 6ea:	91 e0       	ldi	r25, 0x01	; 1
+ 6ec:	0e 94 71 01 	call	0x2e2	; 0x2e2 <lcd_msg>
+ 6f0:	83 ed       	ldi	r24, 0xD3	; 211
+ 6f2:	90 e3       	ldi	r25, 0x30	; 48
+ 6f4:	01 97       	sbiw	r24, 0x01	; 1
+ 6f6:	f1 f7       	brne	.-4      	; 0x6f4 <main+0x24>
+ 6f8:	00 c0       	rjmp	.+0      	; 0x6fa <main+0x2a>
+ 6fa:	00 00       	nop
 	_delay_ms(50);
 	Menu();
- 700:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
+ 6fc:	0e 94 99 01 	call	0x332	; 0x332 <Menu>
     /* Replace with your application code */
     while (1) 
     {
 		RECval = PIND & (1<<PIND0); /*1*/
- 704:	89 b1       	in	r24, 0x09	; 9
- 706:	81 70       	andi	r24, 0x01	; 1
- 708:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <RECval>
+ 700:	89 b1       	in	r24, 0x09	; 9
+ 702:	81 70       	andi	r24, 0x01	; 1
+ 704:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <RECval>
 		UPval = PIND & (1<<PIND1);/*2*/
- 70c:	89 b1       	in	r24, 0x09	; 9
- 70e:	82 70       	andi	r24, 0x02	; 2
- 710:	80 93 ae 01 	sts	0x01AE, r24	; 0x8001ae <UPval>
+ 708:	89 b1       	in	r24, 0x09	; 9
+ 70a:	82 70       	andi	r24, 0x02	; 2
+ 70c:	80 93 ae 01 	sts	0x01AE, r24	; 0x8001ae <UPval>
 		DOWNval = PIND & (1<<PIND2);//4
- 714:	89 b1       	in	r24, 0x09	; 9
- 716:	84 70       	andi	r24, 0x04	; 4
- 718:	80 93 ad 01 	sts	0x01AD, r24	; 0x8001ad <DOWNval>
+ 710:	89 b1       	in	r24, 0x09	; 9
+ 712:	84 70       	andi	r24, 0x04	; 4
+ 714:	80 93 ad 01 	sts	0x01AD, r24	; 0x8001ad <DOWNval>
 		SELval = PIND & (1<<PIND3);//8
- 71c:	89 b1       	in	r24, 0x09	; 9
- 71e:	88 70       	andi	r24, 0x08	; 8
- 720:	80 93 af 01 	sts	0x01AF, r24	; 0x8001af <SELval>
+ 718:	89 b1       	in	r24, 0x09	; 9
+ 71a:	88 70       	andi	r24, 0x08	; 8
+ 71c:	80 93 af 01 	sts	0x01AF, r24	; 0x8001af <SELval>
 		BACKval = PIND & (1<<PIND4); //16
- 724:	89 b1       	in	r24, 0x09	; 9
- 726:	80 71       	andi	r24, 0x10	; 16
- 728:	80 93 ac 01 	sts	0x01AC, r24	; 0x8001ac <BACKval>
+ 720:	89 b1       	in	r24, 0x09	; 9
+ 722:	80 71       	andi	r24, 0x10	; 16
+ 724:	80 93 ac 01 	sts	0x01AC, r24	; 0x8001ac <BACKval>
 		
 		Recording();
- 72c:	0e 94 b5 01 	call	0x36a	; 0x36a <Recording>
+ 728:	0e 94 b5 01 	call	0x36a	; 0x36a <Recording>
 		Navigate();
- 730:	0e 94 7e 01 	call	0x2fc	; 0x2fc <Navigate>
+ 72c:	0e 94 7e 01 	call	0x2fc	; 0x2fc <Navigate>
 		if ((SELval == 8) && (Screen == 1) && (Row == 1)){
- 734:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 738:	88 30       	cpi	r24, 0x08	; 8
- 73a:	71 f4       	brne	.+28     	; 0x758 <main+0x8a>
- 73c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 740:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 744:	01 97       	sbiw	r24, 0x01	; 1
- 746:	41 f4       	brne	.+16     	; 0x758 <main+0x8a>
- 748:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 74c:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 750:	01 97       	sbiw	r24, 0x01	; 1
- 752:	11 f4       	brne	.+4      	; 0x758 <main+0x8a>
+ 730:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 734:	88 30       	cpi	r24, 0x08	; 8
+ 736:	71 f4       	brne	.+28     	; 0x754 <main+0x84>
+ 738:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 73c:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 740:	01 97       	sbiw	r24, 0x01	; 1
+ 742:	41 f4       	brne	.+16     	; 0x754 <main+0x84>
+ 744:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 748:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 74c:	01 97       	sbiw	r24, 0x01	; 1
+ 74e:	11 f4       	brne	.+4      	; 0x754 <main+0x84>
 			PlayBackAudio();
- 754:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <PlayBackAudio>
+ 750:	0e 94 fb 01 	call	0x3f6	; 0x3f6 <PlayBackAudio>
 		}
 		if ((SELval == 8) && (Screen == 1) && (Row == 2)){
- 758:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
- 75c:	88 30       	cpi	r24, 0x08	; 8
- 75e:	71 f4       	brne	.+28     	; 0x77c <main+0xae>
- 760:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 764:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 768:	01 97       	sbiw	r24, 0x01	; 1
- 76a:	41 f4       	brne	.+16     	; 0x77c <main+0xae>
- 76c:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
- 770:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
- 774:	02 97       	sbiw	r24, 0x02	; 2
- 776:	11 f4       	brne	.+4      	; 0x77c <main+0xae>
+ 754:	80 91 af 01 	lds	r24, 0x01AF	; 0x8001af <SELval>
+ 758:	88 30       	cpi	r24, 0x08	; 8
+ 75a:	71 f4       	brne	.+28     	; 0x778 <main+0xa8>
+ 75c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 760:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 764:	01 97       	sbiw	r24, 0x01	; 1
+ 766:	41 f4       	brne	.+16     	; 0x778 <main+0xa8>
+ 768:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <__data_end>
+ 76c:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <__data_end+0x1>
+ 770:	02 97       	sbiw	r24, 0x02	; 2
+ 772:	11 f4       	brne	.+4      	; 0x778 <main+0xa8>
 			DeleteAudio();
- 778:	0e 94 16 02 	call	0x42c	; 0x42c <DeleteAudio>
+ 774:	0e 94 17 02 	call	0x42e	; 0x42e <DeleteAudio>
 		}
 		PlayClipI();
- 77c:	0e 94 32 02 	call	0x464	; 0x464 <PlayClipI>
+ 778:	0e 94 33 02 	call	0x466	; 0x466 <PlayClipI>
 		PlayClipII();
- 780:	0e 94 89 02 	call	0x512	; 0x512 <PlayClipII>
+ 77c:	0e 94 8a 02 	call	0x514	; 0x514 <PlayClipII>
 		DeleteClipI();
- 784:	0e 94 00 03 	call	0x600	; 0x600 <DeleteClipI>
+ 780:	0e 94 01 03 	call	0x602	; 0x602 <DeleteClipI>
 		DeleteClipII();
- 788:	0e 94 2c 03 	call	0x658	; 0x658 <DeleteClipII>
+ 784:	0e 94 2d 03 	call	0x65a	; 0x65a <DeleteClipII>
 		Back();
- 78c:	0e 94 4c 03 	call	0x698	; 0x698 <Back>
+ 788:	0e 94 4d 03 	call	0x69a	; 0x69a <Back>
 		
     }
- 790:	b9 cf       	rjmp	.-142    	; 0x704 <main+0x36>
+ 78c:	b9 cf       	rjmp	.-142    	; 0x700 <main+0x30>
 
-00000792 <_exit>:
- 792:	f8 94       	cli
+0000078e <_exit>:
+ 78e:	f8 94       	cli
 
-00000794 <__stop_program>:
- 794:	ff cf       	rjmp	.-2      	; 0x794 <__stop_program>
+00000790 <__stop_program>:
+ 790:	ff cf       	rjmp	.-2      	; 0x790 <__stop_program>

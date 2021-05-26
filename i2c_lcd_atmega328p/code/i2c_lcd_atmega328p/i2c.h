@@ -11,7 +11,7 @@
 
 #include <avr/io.h>
 
-#define  F_CPU 8000000UL
+#define  F_CPU 1000000UL
 
 void i2c_init(){
 	TWBR = 0x62;		//	Baud rate is set by calculating
