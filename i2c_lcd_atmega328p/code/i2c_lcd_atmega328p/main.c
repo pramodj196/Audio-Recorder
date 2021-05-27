@@ -4,7 +4,7 @@
  * Created: 5/23/2021 7:52:42 AM
  * Author : Bavi
  */ 
-#define F_CPU 8000000UL
+#define F_CPU 1000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 //#include <stdio.h>
@@ -60,6 +60,7 @@ int main(void)
     }
 }
 void Recording(){
+	if(RECval==1){
 	while ( RECval == 1 )
 	{
 		//printf(RECval);
@@ -77,6 +78,7 @@ void Recording(){
 	Menu();
 	Row=0;
 	Screen=1;
+	}
 }
 
 void Navigate(){
@@ -85,10 +87,11 @@ void Navigate(){
 		lcd_cmd(0x80);
 		//lcd_cmd(0x0F);
 		Row=1;
+		}
 		
-	}
 	if (DOWNval==4)
 	{
+	
 		lcd_cmd(0xC0);
 		//lcd_cmd(0x0F); /*blink*/
 		Row=2;
