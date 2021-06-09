@@ -4,7 +4,7 @@
  * Created: 5/23/2021 7:52:42 AM
  * Author : Bavi
  */ 
-#define F_CPU 1000000UL
+#define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 //#include <stdio.h>
