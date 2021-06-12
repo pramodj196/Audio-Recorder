@@ -11,10 +11,10 @@
 
 #include <avr/io.h>
 
-#define  F_CPU 1000000UL
+#define  F_CPU 16000000UL
 
 void i2c_init(){
-	TWBR = 0x62;		//	Baud rate is set by calculating
+	TWBR = 72;		//	Baud rate is set by calculating
 	TWCR = (1<<TWEN);	//Enable I2C
 	TWSR = 0x00;		//Prescaler set to 1
 
