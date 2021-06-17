@@ -181,8 +181,10 @@ void Navigate(){
 void Menu(){
 	lcd_cmd(0x01);
 	lcd_cmd(0x80);
+	lcd_cmd(0x14);
 	lcd_msg("Playback audio");
 	lcd_cmd(0xC0);
+	lcd_cmd(0x14);
 	lcd_msg("Delete Audio");
 	Screen = 1;
 	Row = 0;
@@ -190,8 +192,10 @@ void Menu(){
 void PlayBackAudio(){
 	lcd_cmd(0x01);
 	lcd_cmd(0x80);
+	lcd_cmd(0x14);
 	lcd_msg("Audio 1");
 	lcd_cmd(0xC0);
+	lcd_cmd(0x14);
 	lcd_msg("Audio 2");
 	Screen = 2;
 	Row = 0;
@@ -199,8 +203,10 @@ void PlayBackAudio(){
 void DeleteAudio(){
 	lcd_cmd(0x01);
 	lcd_cmd(0x80);
+	lcd_cmd(0x14);
 	lcd_msg("Audio 1");
 	lcd_cmd(0xC0);
+	lcd_cmd(0x14);
 	lcd_msg("Audio 2");
 	Screen = 3;
 	Row = 0;
@@ -209,8 +215,10 @@ void PlayClipI(){
 	if ((SELval == 8) && (Row == 1) && (Screen == 2)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("No Effect");
 		lcd_cmd(0xC0);
+		lcd_cmd(0x14);
 		lcd_msg("Effect 1");
 		Screen = 4;
 		Row =0;
@@ -218,8 +226,10 @@ void PlayClipI(){
 	if ((SELval == 8) && (Row == 2) && (Screen == 2)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("No Effect");
 		lcd_cmd(0xC0);
+		lcd_cmd(0x14);
 		lcd_msg("Effect 1");
 		Screen = 5;
 		Row =0;
@@ -229,6 +239,7 @@ void PlayClipII(){
 	if ((SELval == 8) && (Row == 1) && (Screen == 4)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Playing Audio 1");
 		myfile_R = SD.open("test04.txt",FILE_READ);
 		if (myfile_R) {
@@ -242,20 +253,25 @@ void PlayClipII(){
 	if ((SELval == 8) && (Row == 2) && (Screen == 4)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Playing Audio 1");
 		lcd_cmd(0xC0);
+		lcd_cmd(0x14);
 		lcd_msg("with Effect 1");
 	}
 	if ((SELval == 8) && (Row == 1) && (Screen == 5)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Playing Audio 2");
 	}
 	if ((SELval == 8) && (Row == 2) && (Screen == 5)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Playing Audio 2");
 		lcd_cmd(0xC0);
+		lcd_cmd(0x14);
 		lcd_msg("with Effect 1");
 	}
 }
@@ -263,8 +279,10 @@ void DeleteClipI(){
 	if ((SELval == 8) && (Row != 0) && (Screen == 3)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Press Select");
 		lcd_cmd(0xC0);
+		lcd_cmd(0x14);
 		lcd_msg("to delete");
 		Screen = 6;
 		Row = 0;
@@ -275,6 +293,7 @@ void DeleteClipII(){
 	if ((SELval == 8 ) && (Screen == 6)){
 		lcd_cmd(0x01);
 		lcd_cmd(0x80);
+		lcd_cmd(0x14);
 		lcd_msg("Deleted");
 		_delay_ms(1000);
 		Menu();
