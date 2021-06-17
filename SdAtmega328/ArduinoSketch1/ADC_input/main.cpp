@@ -127,7 +127,7 @@ void Recording(){
 	myfile.close();
 	lcd_cmd(0x01);
 	lcd_msg("File Saved");
-	_delay_ms(1000);
+	_delay_ms(10);
 	Menu();
 	Row=0;
 	Screen=1;
