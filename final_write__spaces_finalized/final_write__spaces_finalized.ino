@@ -23,8 +23,8 @@ int len;
  
 File myfile,myfile_R;
 String line;
-String f_name =  "music304.txt";
-LiquidCrystal_I2C lcd(0x20,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+String f_name =  "music401.txt";
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, BACK = 9;
 int RECval, UPval, DOWNval, SELval, BACKval;
@@ -38,7 +38,7 @@ void setup() {
   cbi(ADCSRA,ADPS1) ;
   cbi(ADCSRA,ADPS0) ;
   #endif
-
+ DDRD=255;
 
 
   Serial.begin(9600);
@@ -53,7 +53,11 @@ void setup() {
 
 
  
-  lcd.begin(16,2);
+  lcd.init();                      // initialize the lcd 
+  lcd.init();
+  // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(0,0);
   pinMode (RECval,INPUT);
   //pinMode (UP,INPUT);
   pinMode (DOWN,INPUT);
@@ -209,7 +213,10 @@ void PlayClipII(){
         line=myfile_R.readStringUntil(' ');
         PORTD = line.toInt();
       }
-     myfile_R.close();   
+     myfile_R.close();
+     lcd.clear();
+     lcd.setCursor(1,0);
+     lcd.print("end");   
     }
 
     
