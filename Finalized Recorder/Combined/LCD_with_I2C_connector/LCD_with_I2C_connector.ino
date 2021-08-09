@@ -23,8 +23,8 @@ int len;
  
 File myfile,myfile_R;
 String line;
-String f_name =  "music304.txt";
-LiquidCrystal_I2C lcd(0x20,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+String f_name =  "music501.txt";
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, BACK = 9;
 int RECval, UPval, DOWNval, SELval, BACKval;
@@ -38,22 +38,26 @@ void setup() {
   cbi(ADCSRA,ADPS1) ;
   cbi(ADCSRA,ADPS0) ;
   #endif
-
+  lcd.init();                      // initialize the lcd 
+  lcd.init();
+  // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(0,0);
   DDRD = 225;
 
   Serial.begin(9600);
   while (!Serial){
     ;
  }
-  Serial.println("Initializing the SD card...");
-  if(!SD.begin(chipselect)){
+ // Serial.println("Initializing the SD card...");
+ if(!SD.begin(chipselect)){
     //Serial.println("Card failed or not present !");
-    while(1);
+  while(1);
   }
- Serial.println("Card initialized.");
+ //Serial.println("Card initialized.");
 
  
-  lcd.begin(16,2);
+  //lcd.begin(16,2);
   pinMode (RECval,INPUT);
   //pinMode (UP,INPUT);
   pinMode (DOWN,INPUT);
