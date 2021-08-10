@@ -23,7 +23,7 @@ int len;
  
 File myfile,myfile_R;
 String line;
-String f_name =  "music401.txt";
+String f_name =  "music601.txt";
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, BACK = 9;
@@ -216,7 +216,11 @@ void PlayClipII(){
      myfile_R.close();
      lcd.clear();
      lcd.setCursor(1,0);
-     lcd.print("end");   
+     lcd.print("end");  
+     delay(1000);
+     Menu();
+      Row = 0;
+     Screen = 1; 
     }
 
     
