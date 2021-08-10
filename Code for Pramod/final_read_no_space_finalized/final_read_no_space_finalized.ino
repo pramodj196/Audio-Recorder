@@ -23,12 +23,13 @@ char buf[4];
  
 File myfile,myfile_R;
 String line;
-String f_name =  "music304.txt";
-LiquidCrystal_I2C lcd(0x20,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+String f_name =  "devindi.txt";
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, BACK = 9;
 int RECval, UPval, DOWNval, SELval, BACKval;
 int Row = 0, Screen = 1;
+int k;
 
 void setup() {
    //pinMode(9,OUTPUT);
@@ -42,19 +43,23 @@ void setup() {
 
 
 
-  Serial.begin(9600);
-  while (!Serial){
-    ;
- }
+ // Serial.begin(9600);
+//  while (!Serial){
+   // ;
+// }
   
   if(!SD.begin(chipselect)){
     //Serial.println("Card failed or not present !");
     while(1);
   }
-
+  lcd.init();                      // initialize the lcd 
+  lcd.init();
+  // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(1,0);
 
  
-  lcd.begin(16,2);
+ // lcd.begin(16,2);
   pinMode (RECval,INPUT);
   //pinMode (UP,INPUT);
   pinMode (DOWN,INPUT);
@@ -207,23 +212,34 @@ void PlayClipII(){
      //******************************************************************************
      //******************************************************************************
      //******************************************************************************
-     
+     unsigned long currenttime;
      myfile_R = SD.open(f_name,FILE_READ);
      if (myfile_R) {
+      unsigned long starttime = millis();
       while (myfile_R.available()) {
-       myfile.read(buf,3);
+       myfile_R.read(buf,3);
       buf[4]={'\0'};
       //myfile1.println(buf);
       //Serial.println(buf);
       //myfile1.println(buf);
      // buf[4]={'\0'};
-      PORTD =buf;
-      delayMicroseconds(93);
+     k=buf[0]*100+buf[1]*10+buf[2];
+      PORTD =k;
+     delayMicroseconds(93);
       }
-     myfile_R.close();   
-    }
-
-    
+     currenttime = millis();
+     unsigned long elapsedtime = currenttime - starttime;
+     myfile_R.close();
+     lcd.clear();
+     lcd.setCursor(1,0);
+     lcd.print("end"); 
+     delay(2000);
+     lcd.clear();
+     lcd.setCursor(1,0);
+     lcd.print(elapsedtime); 
+     delay(2000);
+     Menu();
+    }   
     
   }
   if (SELval > 900 and Row == 2 and Screen == 4){
