@@ -24,21 +24,20 @@ void setup() {
   #endif
 
   
-  Serial.begin(9600);
-    while (!Serial){
-      ;
-    }
+//Serial.begin(9600);
+   // while (!Serial){
+  //    ;
+  //  }
 
 
-
-  Serial.println("Initializing the SD card...");
+ // Serial.println("Initializing the SD card...");
   if(!SD.begin(chipselect)){
-    Serial.println("Card failed or not present !");
+   // Serial.println("Card failed or not present !");
     while(1);
   }
-  Serial.println("Card initialized.");
+  //Serial.println("Card initialized.");
  
-  File myfile = SD.open("done35.txt",O_CREAT | O_WRITE);
+  File myfile = SD.open("done01.txt",O_CREAT | O_WRITE);
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -65,7 +64,7 @@ void setup() {
     
     
     CurrentTime1 = millis();
-    if ((CurrentTime1 - StartTime1) > 10000 ){
+    if ((CurrentTime1 - StartTime1) > 30000 ){
       ElapsedTime1 = CurrentTime1 - StartTime1;
       myfile.seek(0);
       myfile.print(ElapsedTime1);
@@ -74,7 +73,7 @@ void setup() {
       break;
     }
   }
-  Serial.println("Accomplished");
+ // Serial.println("Accomplished");
 
 }
 

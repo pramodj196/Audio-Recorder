@@ -23,7 +23,7 @@ char buf[4];
  
 File myfile,myfile_R;
 String line;
-String f_name =  "music452.txt";
+String f_name =  "final1.txt";
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, BACK = 9;
@@ -211,9 +211,10 @@ void PlayClipII(){
      //******************************************************************************
      //******************************************************************************
      //******************************************************************************
-     
+     unsigned long currenttime;
      myfile_R = SD.open(f_name,FILE_READ);
      if (myfile_R) {
+      unsigned long starttime = millis();
       while (myfile_R.available()) {
        myfile_R.read(buf,3);
       buf[4]={'\0'};
@@ -221,12 +222,18 @@ void PlayClipII(){
       //Serial.println(buf);
       //myfile1.println(buf);
      // buf[4]={'\0'};
-      analogWrite(9,buf);
+      PORTD=buf;
       }
+      currenttime = millis();
+     unsigned long elapsedtime = currenttime - starttime;
      myfile_R.close();  
      lcd.clear();
      lcd.setCursor(1,0);
      lcd.print("end"); 
+     delay(2000);
+     lcd.clear();
+     lcd.setCursor(1,0);
+     lcd.print(elapsedtime); 
      delay(2000);
      Menu();
     }
