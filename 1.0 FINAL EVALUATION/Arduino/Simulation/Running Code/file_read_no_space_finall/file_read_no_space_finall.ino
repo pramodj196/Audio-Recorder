@@ -196,7 +196,7 @@ void Menu(){
     Screen = 1;
     Row = 0;
 }
-void bassfilter(){
+/*void bassfilter(){
   recFile = SD.open(filename, FILE_READ);
   f =filename + String(" lowpass.txt");
   lfilter = SD.open(f,FILE_WRITE);
@@ -242,7 +242,7 @@ void treblefilter(){
    recFile.close();
    y_pre=0;
 }
-}
+}*/
 
 void PlayBackAudioI(){
     lcd.clear();
@@ -338,8 +338,7 @@ void PlayClipII(){
   if (SELval > 900 and Row == 1 and Screen == 6){
     lcd.clear();
     lcd.noBlink();
-    lcd.setCursor(1,0);
-    lcd.print(filename + String("..."));     
+         
 
      //******************************************************************************
      //******************************************************************************
@@ -347,6 +346,8 @@ void PlayClipII(){
      unsigned long currenttime;
      myfile_R = SD.open(filename,FILE_READ);
      if (myfile_R) {
+      lcd.setCursor(1,0);
+      lcd.print(filename + String("..."));
       unsigned long starttime = millis();
       while (myfile_R.available()) {
        myfile_R.read(buf,3);
@@ -357,7 +358,7 @@ void PlayClipII(){
      // buf[4]={'\0'};
      k=buf[0]*100+buf[1]*10+buf[2];
       PORTD =k;
-     delayMicroseconds(93);
+     delayMicroseconds(53);
       }
      currenttime = millis();
      unsigned long elapsedtime = currenttime - starttime;
@@ -371,7 +372,17 @@ void PlayClipII(){
      lcd.print(elapsedtime); 
      delay(2000);
      Menu();
-    }   
+    }
+    else {
+      lcd.clear();
+      lcd.noBlink();
+      lcd.setCursor(1,0);
+      lcd.print ("No Such File");
+       lcd.setCursor(1,1);
+       lcd.print("Available");
+       delay(1000);
+       Menu(); 
+    }
     
   }
   if (SELval > 900 and Row == 1 and Screen == 7){
@@ -381,7 +392,11 @@ void PlayClipII(){
     lcd.print(filename+String("..."));
     lcd.setCursor(1,1);
     lcd.print("with Bass Effect");
-    bassfilter();
+    delay(1000);
+    lcd.print("end");
+    delay(1000);
+    Menu();
+    /*bassfilter();
     f =filename + String("lowpass.txt");
     //******************************************************************************
      //******************************************************************************
@@ -413,7 +428,7 @@ void PlayClipII(){
      lcd.print(elapsedtime); 
      delay(2000);
      Menu();
-  }
+  }*/
   }
   if (SELval > 900 and Row == 1 and Screen == 8){
     lcd.clear();
@@ -422,7 +437,11 @@ void PlayClipII(){
     lcd.print(filename+String("..."));
     lcd.setCursor(1,1);
     lcd.print("with Treble Effect");
-    bassfilter();
+    delay(1000);
+    lcd.print("end");
+    delay(1000);
+    Menu();
+    /*bassfilter();
     f =filename + String("highpass.txt");
     //******************************************************************************
      //******************************************************************************
@@ -454,7 +473,7 @@ void PlayClipII(){
      lcd.print(elapsedtime); 
      delay(2000);
      Menu();
-  }
+  }*/
 }
 }
 void DeleteClipI(){
