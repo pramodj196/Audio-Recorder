@@ -23,7 +23,7 @@ char buf[4];
  
 File myfile,myfile_R;
 String line;
-String f_name =  "devindi.txt";
+String f_name =  "devindi1.txt";
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int DOWN = 8, REC = 9;
